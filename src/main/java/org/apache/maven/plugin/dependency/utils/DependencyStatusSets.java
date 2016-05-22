@@ -153,14 +153,52 @@ public class DependencyStatusSets
         if ( !(this.resolvedDependencies == null || this.resolvedDependencies.isEmpty()) )
         {
             sb.append( buildArtifactListOutput( resolvedDependencies, outputAbsoluteArtifactFilename,
-                                                outputScope, sort ) );
+                                                outputScope, sort, true, true, true ) );
         }
 
         return sb.toString();
     }
 
+    public String getOutput( boolean outputAbsoluteArtifactFilename, boolean outputScope,
+                             boolean outputClassifier, boolean outputVersion,
+                             boolean outputGroupId, boolean sort )
+    {
+        StringBuilder sb = new StringBuilder();
+        if ( !(this.resolvedDependencies == null || this.resolvedDependencies.isEmpty()) )
+        {
+            sb.append( buildArtifactListOutput( resolvedDependencies, outputAbsoluteArtifactFilename,
+                                                outputScope, outputClassifier, outputVersion, outputGroupId, sort ) );
+        }
+
+        return sb.toString();
+    }
+
+    private String artifactToString(Artifact artifact, boolean outputScope, boolean outputClassifier, boolean outputVersion, boolean outputGroupId)
+    {
+        StringBuilder result = new StringBuilder();
+        if (outputGroupId)
+            result.append(artifact.getGroupId());
+        if (result.length() > 0)
+            result.append(":");
+        result.append(artifact.getArtifactId());
+        if (outputClassifier && artifact.hasClassifier()) {
+            result.append(":");
+            result.append(artifact.getClassifier());
+        }
+        if (outputVersion) {
+            result.append(":");
+            result.append(artifact.getVersion());
+        }
+        if (outputScope) {
+            result.append(":");
+            result.append(artifact.getType());
+        }
+        return result.toString();
+    }
+
     private StringBuilder buildArtifactListOutput( Set<Artifact> artifacts, boolean outputAbsoluteArtifactFilename,
-                                                   boolean outputScope, boolean sort )
+                                                   boolean outputScope, boolean outputClassifier, boolean outputVersion,
+                                                   boolean outputGroupId, boolean sort )
     {
         StringBuilder sb = new StringBuilder();
         List<String> artifactStringList = new ArrayList<String>();
@@ -180,11 +218,8 @@ public class DependencyStatusSets
                     artifactFilename = null;
                 }
             }
-
-            String id = outputScope ? artifact.toString() : artifact.getId();
-
-            artifactStringList.add( id + ( outputAbsoluteArtifactFilename ? ":" + artifactFilename : "" )
-                + "\n" );
+            String id = artifactToString(artifact, outputScope, outputClassifier, outputVersion, outputGroupId);
+            artifactStringList.add( id + ( outputAbsoluteArtifactFilename ? ":" + artifactFilename : "" ) + "\n" );
         }
         if ( sort )
         {

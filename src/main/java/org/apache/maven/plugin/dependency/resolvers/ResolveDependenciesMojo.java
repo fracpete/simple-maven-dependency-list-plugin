@@ -43,10 +43,34 @@ public class ResolveDependenciesMojo
     /**
      * If we should display the scope when resolving
      *
-     * @since 2.0-alpha-2
+     * @since 0.0.1
      */
     @Parameter( property = "mdep.outputScope", defaultValue = "true" )
     protected boolean outputScope;
+
+    /**
+     * If we should display the classifier when resolving
+     *
+     * @since 0.0.1
+     */
+    @Parameter( property = "mdep.outputClassifier", defaultValue = "true" )
+    protected boolean outputClassifier;
+
+    /**
+     * If we should display the version when resolving
+     *
+     * @since 0.0.1
+     */
+    @Parameter( property = "mdep.outputVersion", defaultValue = "true" )
+    protected boolean outputVersion;
+
+    /**
+     * If we should display the group ID when resolving
+     *
+     * @since 0.0.1
+     */
+    @Parameter( property = "mdep.outputGroupId", defaultValue = "true" )
+    protected boolean outputGroupId;
 
     /**
      * Only used to store results for integration test validation
@@ -57,7 +81,7 @@ public class ResolveDependenciesMojo
      * Sort the output list of resolved artifacts alphabetically.
      * The default ordering matches the classpath order.
      * 
-     * @since 2.8
+     * @since 0.0.1
      */
     @Parameter( property = "sort", defaultValue = "false" )
     boolean sort;
@@ -65,7 +89,7 @@ public class ResolveDependenciesMojo
     /**
      * Include parent poms in the dependency resolution list.
      * 
-     * @since 2.8
+     * @since 0.0.1
      */
     @Parameter( property = "includeParents", defaultValue = "false" )
     boolean includeParents;
@@ -81,7 +105,10 @@ public class ResolveDependenciesMojo
         // get sets of dependencies
         results = this.getDependencySets( false, includeParents );
 
-        String output = results.getOutput( outputAbsoluteArtifactFilename, outputScope, sort );
+        String output = results.getOutput(
+          outputAbsoluteArtifactFilename, outputScope, outputClassifier,
+          outputVersion, outputGroupId, sort );
+
         try
         {
             if ( outputFile == null )
