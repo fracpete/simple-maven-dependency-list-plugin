@@ -23,13 +23,13 @@ package org.apache.maven.plugin.dependency.utils;
  *
  */
 
+import org.apache.maven.artifact.Artifact;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
-
-import org.apache.maven.artifact.Artifact;
 
 /**
  * @author <a href="mailto:brianf@apache.org">Brian Fox</a>
@@ -150,38 +150,11 @@ public class DependencyStatusSets
     public String getOutput( boolean outputAbsoluteArtifactFilename, boolean outputScope, boolean sort )
     {
         StringBuilder sb = new StringBuilder();
-        sb.append( "\n" );
-        sb.append( "The following files have been resolved:\n" );
-        if ( this.resolvedDependencies == null || this.resolvedDependencies.isEmpty() )
-        {
-            sb.append( "   none\n" );
-        }
-        else
+        if ( !(this.resolvedDependencies == null || this.resolvedDependencies.isEmpty()) )
         {
             sb.append( buildArtifactListOutput( resolvedDependencies, outputAbsoluteArtifactFilename,
                                                 outputScope, sort ) );
         }
-
-        if ( this.skippedDependencies != null && !this.skippedDependencies.isEmpty() )
-        {
-            sb.append( "\n" );
-            sb.append( "The following files were skipped:\n" );
-            Set<Artifact> skippedDependencies = new LinkedHashSet<Artifact>();
-            skippedDependencies.addAll( this.skippedDependencies );
-            sb.append( buildArtifactListOutput( skippedDependencies, outputAbsoluteArtifactFilename,
-                                                outputScope, sort ) );
-        }
-
-        if ( this.unResolvedDependencies != null && !this.unResolvedDependencies.isEmpty() )
-        {
-            sb.append( "\n" );
-            sb.append( "The following files have NOT been resolved:\n" );
-            Set<Artifact> unResolvedDependencies = new LinkedHashSet<Artifact>();
-            unResolvedDependencies.addAll( this.unResolvedDependencies );
-            sb.append( buildArtifactListOutput( unResolvedDependencies, outputAbsoluteArtifactFilename,
-                                                outputScope, sort ) );
-        }
-        sb.append( "\n" );
 
         return sb.toString();
     }
@@ -210,7 +183,7 @@ public class DependencyStatusSets
 
             String id = outputScope ? artifact.toString() : artifact.getId();
 
-            artifactStringList.add( "   " + id + ( outputAbsoluteArtifactFilename ? ":" + artifactFilename : "" )
+            artifactStringList.add( id + ( outputAbsoluteArtifactFilename ? ":" + artifactFilename : "" )
                 + "\n" );
         }
         if ( sort )

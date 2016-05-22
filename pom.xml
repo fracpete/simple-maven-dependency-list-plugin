@@ -34,11 +34,11 @@ under the License.
 
   <artifactId>maven-dependency-list-plugin</artifactId>
   <groupId>com.github.fracpete</groupId>
-  <version>0.0.1</version>
+  <version>0.0.1-SNAPSHOT</version>
   <packaging>maven-plugin</packaging>
 
   <name>Apache Maven Dependency List Plugin</name>
-  <description>Simplified version of the maven-dependency-plugin, only outputting a simple list of dependencies.</description>
+  <description>Simplified version of the maven-dependency-plugin (version 2.10), only outputting a simple list of dependencies.</description>
 
   <scm>
     <connection>scm:git:https://github.com/fracpete/maven-dependency-list-plugin</connection>
