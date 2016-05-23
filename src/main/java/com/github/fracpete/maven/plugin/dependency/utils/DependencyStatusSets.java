@@ -1,0 +1,234 @@
+package com.github.fracpete.maven.plugin.dependency.utils;
+
+/*
+ * Licensed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements.  See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership.  The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied.  See the License for the
+ * specific language governing permissions and limitations
+ * under the License.
+ */
+
+/**
+ *
+ */
+
+import org.apache.maven.artifact.Artifact;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.LinkedHashSet;
+import java.util.List;
+import java.util.Set;
+
+/**
+ * @author <a href="mailto:brianf@apache.org">Brian Fox</a>
+ * @version $Id: DependencyStatusSets.java 1640038 2014-11-16 22:10:23Z hboutemy $
+ */
+public class DependencyStatusSets
+{
+
+    Set<Artifact> resolvedDependencies = null;
+
+    Set<Artifact> unResolvedDependencies = null;
+
+    Set<Artifact> skippedDependencies = null;
+
+    public DependencyStatusSets()
+    {
+
+    }
+
+    public DependencyStatusSets( Set<Artifact> resolved, Set<Artifact> unResolved, Set<Artifact> skipped )
+    {
+        if ( resolved != null )
+        {
+            this.resolvedDependencies = new LinkedHashSet<Artifact>( resolved );
+        }
+        if ( unResolved != null )
+        {
+            this.unResolvedDependencies = new LinkedHashSet<Artifact>( unResolved );
+        }
+        if ( skipped != null )
+        {
+            this.skippedDependencies = new LinkedHashSet<Artifact>( skipped );
+        }
+    }
+
+    /**
+     * @return Returns the resolvedDependencies.
+     */
+    public Set<Artifact> getResolvedDependencies()
+    {
+        return this.resolvedDependencies;
+    }
+
+    /**
+     * @param resolvedDependencies
+     *            The resolvedDependencies to set.
+     */
+    public void setResolvedDependencies( Set<Artifact> resolvedDependencies )
+    {
+        if ( resolvedDependencies != null )
+        {
+            this.resolvedDependencies = new LinkedHashSet<Artifact>( resolvedDependencies );
+        }
+        else
+        {
+            this.resolvedDependencies = null;
+        }
+    }
+
+    /**
+     * @return Returns the skippedDependencies.
+     */
+    public Set<Artifact> getSkippedDependencies()
+    {
+        return this.skippedDependencies;
+    }
+
+    /**
+     * @param skippedDependencies
+     *            The skippedDependencies to set.
+     */
+    public void setSkippedDependencies( Set<Artifact> skippedDependencies )
+    {
+        if ( skippedDependencies != null )
+        {
+            this.skippedDependencies = new LinkedHashSet<Artifact>( skippedDependencies );
+        }
+        else
+        {
+            this.skippedDependencies = null;
+        }
+    }
+
+    /**
+     * @return Returns the unResolvedDependencies.
+     */
+    public Set<Artifact> getUnResolvedDependencies()
+    {
+        return this.unResolvedDependencies;
+    }
+
+    /**
+     * @param unResolvedDependencies
+     *            The unResolvedDependencies to set.
+     */
+    public void setUnResolvedDependencies( Set<Artifact> unResolvedDependencies )
+    {
+        if ( unResolvedDependencies != null )
+        {
+            this.unResolvedDependencies = new LinkedHashSet<Artifact>( unResolvedDependencies );
+        }
+        else
+        {
+            this.unResolvedDependencies = null;
+        }
+    }
+
+    public String getOutput( boolean outputAbsoluteArtifactFilename )
+    {
+        return getOutput( outputAbsoluteArtifactFilename, true );
+    }
+
+    public String getOutput( boolean outputAbsoluteArtifactFilename, boolean outputScope )
+    {
+        return getOutput( outputAbsoluteArtifactFilename, outputScope, false );
+    }
+
+    public String getOutput( boolean outputAbsoluteArtifactFilename, boolean outputScope, boolean sort )
+    {
+        StringBuilder sb = new StringBuilder();
+        if ( !(this.resolvedDependencies == null || this.resolvedDependencies.isEmpty()) )
+        {
+            sb.append( buildArtifactListOutput( resolvedDependencies, outputAbsoluteArtifactFilename,
+                                                outputScope, sort, true, true, true ) );
+        }
+
+        return sb.toString();
+    }
+
+    public String getOutput( boolean outputAbsoluteArtifactFilename, boolean outputScope,
+                             boolean outputClassifier, boolean outputVersion,
+                             boolean outputGroupId, boolean sort )
+    {
+        StringBuilder sb = new StringBuilder();
+        if ( !(this.resolvedDependencies == null || this.resolvedDependencies.isEmpty()) )
+        {
+            sb.append( buildArtifactListOutput( resolvedDependencies, outputAbsoluteArtifactFilename,
+                                                outputScope, outputClassifier, outputVersion, outputGroupId, sort ) );
+        }
+
+        return sb.toString();
+    }
+
+    private String artifactToString(Artifact artifact, boolean outputScope, boolean outputClassifier, boolean outputVersion, boolean outputGroupId)
+    {
+        StringBuilder result = new StringBuilder();
+        if (outputGroupId)
+            result.append(artifact.getGroupId());
+        if (result.length() > 0)
+            result.append(":");
+        result.append(artifact.getArtifactId());
+        if (outputClassifier && artifact.hasClassifier()) {
+            result.append(":");
+            result.append(artifact.getClassifier());
+        }
+        if (outputVersion) {
+            result.append(":");
+            result.append(artifact.getVersion());
+        }
+        if (outputScope) {
+            result.append(":");
+            result.append(artifact.getType());
+        }
+        return result.toString();
+    }
+
+    private StringBuilder buildArtifactListOutput( Set<Artifact> artifacts, boolean outputAbsoluteArtifactFilename,
+                                                   boolean outputScope, boolean outputClassifier, boolean outputVersion,
+                                                   boolean outputGroupId, boolean sort )
+    {
+        StringBuilder sb = new StringBuilder();
+        List<String> artifactStringList = new ArrayList<String>();
+        for ( Artifact artifact : artifacts )
+        {
+            String artifactFilename = null;
+            if ( outputAbsoluteArtifactFilename )
+            {
+                try
+                {
+                    // we want to print the absolute file name here
+                    artifactFilename = artifact.getFile().getAbsoluteFile().getPath();
+                }
+                catch ( NullPointerException e )
+                {
+                    // ignore the null pointer, we'll output a null string
+                    artifactFilename = null;
+                }
+            }
+            String id = artifactToString(artifact, outputScope, outputClassifier, outputVersion, outputGroupId);
+            artifactStringList.add( id + ( outputAbsoluteArtifactFilename ? ":" + artifactFilename : "" ) + "\n" );
+        }
+        if ( sort )
+        {
+            Collections.sort( artifactStringList );
+        }
+        for ( String artifactString : artifactStringList )
+        {
+            sb.append( artifactString );
+        }
+        return sb;
+    }
+}
