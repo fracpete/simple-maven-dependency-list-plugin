@@ -41,15 +41,15 @@ under the License.
   <description>Simplified version of the maven-dependency-plugin (version 2.10), only outputting a simple list of dependencies.</description>
 
   <scm>
-    <connection>scm:git:ssh://git@github.com/fracpete/maven-dependency-list-plugin</connection>
-    <developerConnection>scm:git:ssh://git@github.com/fracpete/maven-dependency-list-plugin</developerConnection>
-    <url>https://github.com/fracpete/maven-dependency-list-plugin</url>
+    <connection>scm:git:ssh://git@github.com/fracpete/simple-maven-dependency-list-plugin</connection>
+    <developerConnection>scm:git:ssh://git@github.com/fracpete/simple-maven-dependency-list-plugin</developerConnection>
+    <url>https://github.com/fracpete/simple-maven-dependency-list-plugin</url>
     <tag>HEAD</tag>
   </scm>
 
   <issueManagement>
     <system>Github</system>
-    <url>https://github.com/fracpete/maven-dependency-list-plugin/issues</url>
+    <url>https://github.com/fracpete/simple-maven-dependency-list-plugin/issues</url>
   </issueManagement>
 
   <contributors>
