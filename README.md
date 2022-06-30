@@ -1,4 +1,4 @@
-# maven-dependency-list-plugin
+# simple-maven-dependency-list-plugin
 
 Simplified version of [maven-dependency-list](https://maven.apache.org/plugins/maven-dependency-plugin/) 
 plugin that just outputs a list of dependencies.
@@ -15,8 +15,8 @@ For your `pom.xml`:
         ...
         <plugin>
           <groupId>com.github.fracpete</groupId>
-          <artifactId>maven-dependency-list-plugin</artifactId>
-          <version>0.0.1</version>
+          <artifactId>simple-maven-dependency-list-plugin</artifactId>
+          <version>0.0.4</version>
           <executions>
             <execution>
               <id>list</id>
