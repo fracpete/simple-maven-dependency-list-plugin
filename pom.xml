@@ -41,8 +41,8 @@ under the License.
   <description>Simplified version of the maven-dependency-plugin (version 2.10), only outputting a simple list of dependencies.</description>
 
   <scm>
-    <connection>scm:git:https://github.com/fracpete/maven-dependency-list-plugin</connection>
-    <developerConnection>scm:git:https://github.com/fracpete/maven-dependency-list-plugin</developerConnection>
+    <connection>scm:git:ssh://git@github.com/fracpete/maven-dependency-list-plugin</connection>
+    <developerConnection>scm:git:ssh://git@github.com/fracpete/maven-dependency-list-plugin</developerConnection>
     <url>https://github.com/fracpete/maven-dependency-list-plugin</url>
     <tag>HEAD</tag>
   </scm>
@@ -80,8 +80,8 @@ under the License.
     <mavenVersion>2.2.1</mavenVersion>
     <doxiaVersion>1.4</doxiaVersion>
     <pluginTestingVersion>2.1</pluginTestingVersion>
-    <maven.compiler.source>1.6</maven.compiler.source>
-    <maven.compiler.target>1.6</maven.compiler.target>
+    <maven.compiler.source>1.8</maven.compiler.source>
+    <maven.compiler.target>1.8</maven.compiler.target>
   </properties>
 
   <dependencies>
