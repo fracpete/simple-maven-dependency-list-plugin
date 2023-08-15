@@ -77,7 +77,7 @@ under the License.
   </contributors>
 
   <properties>
-    <mavenVersion>2.2.1</mavenVersion>
+    <mavenVersion>3.8.1</mavenVersion>
     <doxiaVersion>1.4</doxiaVersion>
     <pluginTestingVersion>2.1</pluginTestingVersion>
     <maven.compiler.source>1.8</maven.compiler.source>
